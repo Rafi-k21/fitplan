@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FitPlan | Weekly Planner</title>
+  <title>FitPlan | Planner</title>
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
@@ -18,93 +18,29 @@
 
   <main class="container">
     <section class="hero">
-      <h1>Weekly Workout Planner</h1>
-      <p>Add your routine by day and save it automatically.</p>
-    </section>
-
-    <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FitPlan | Weekly Planner</title>
-  <link rel="stylesheet" href="css/style.css" />
-</head>
-<body>
-  <nav class="navbar">
-    <h2>FitPlan</h2>
-    <div>
-      <a href="index.html">Dashboard</a>
-      <a href="planner.html">Planner</a>
-      <a href="nutrition.html">Nutrition</a>
-    </div>
-  </nav>
-
-  <main class="container">
-    <section class="hero">
-      <h1>Weekly Workout Planner</h1>
-      <p>Add your routine by day and save it automatically.</p>
+      <h1>Workout Planner</h1>
+      <p>Paste your full weekly routine once. FitPlan will organise it day by day.</p>
     </section>
 
     <section class="card">
-  <h2>Create Workout Day</h2>
+      <h2>Paste Full Weekly Routine</h2>
 
-  <form id="workoutForm">
-    <select id="day" required>
-      <option value="">Select Day</option>
-      <option>Monday</option>
-      <option>Tuesday</option>
-      <option>Wednesday</option>
-      <option>Thursday</option>
-      <option>Friday</option>
-      <option>Saturday</option>
-      <option>Sunday</option>
-    </select>
+      <textarea
+        id="bulkRoutineInput"
+        placeholder="Paste your full workout plan here..."
+      ></textarea>
 
-    <input 
-      type="text" 
-      id="workoutName" 
-      placeholder="Workout Name e.g. Chest + Triceps" 
-      required 
-    />
-
-    <hr>
-
-    <h3>Add Exercises</h3>
-
-    <input 
-      type="text" 
-      id="exercise" 
-      placeholder="Exercise 1 e.g. Bench Press" 
-      required 
-    />
-
-    <div class="input-row">
-      <input 
-        type="number" 
-        id="sets" 
-        placeholder="Sets e.g. 4" 
-        required 
-      />
-
-      <input 
-        type="text" 
-        id="reps" 
-        placeholder="Reps e.g. 8-10" 
-        required 
-      />
-    </div>
-
-    <button type="submit">+ Add Exercise to This Day</button>
-  </form>
-
-  <p class="hint">
-    Keep the same day and workout name selected, then add 3-5 exercises one by one.
-  </p>
-</section>
+      <button id="autoBuildBtn">Build My Routine</button>
+      <button id="clearAllBtn" class="clear-btn">Clear Routine</button>
+    </section>
 
     <section class="card">
-      <h2>Your Weekly Routine</h2>
+      <h2 id="todayTitle">Today</h2>
+      <div id="todayWorkout"></div>
+    </section>
+
+    <section class="card">
+      <h2>Full Weekly Routine</h2>
       <div id="weeklyRoutine"></div>
     </section>
   </main>

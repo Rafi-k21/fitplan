@@ -14,15 +14,17 @@ body {
   min-height: 100vh;
 }
 
+/* Navbar */
 .navbar {
   width: 90%;
   max-width: 1200px;
   margin: 25px auto;
   padding: 18px 35px;
   border-radius: 24px;
-  background: rgba(255,255,255,0.06);
+  background: rgba(255, 255, 255, 0.06);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(255,255,255,0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -43,24 +45,27 @@ body {
   color: white;
   text-decoration: none;
   font-weight: 600;
+  transition: 0.3s;
 }
 
 .navbar a:hover {
   color: #60a5fa;
 }
 
+/* Main Container */
 .container {
   width: 90%;
   max-width: 1200px;
   margin: 0 auto 50px;
 }
 
+/* Hero */
 .hero {
   padding: 70px 50px;
-  background: rgba(255,255,255,0.05);
+  background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(20px);
   border-radius: 35px;
-  border: 1px solid rgba(255,255,255,0.08);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   margin-bottom: 35px;
 }
 
@@ -75,13 +80,14 @@ body {
   color: #cbd5e1;
 }
 
+/* Cards */
 .card,
 .widget {
   padding: 35px;
   border-radius: 30px;
-  background: rgba(255,255,255,0.06);
+  background: rgba(255, 255, 255, 0.06);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(255,255,255,0.08);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   margin-bottom: 25px;
 }
 
@@ -97,26 +103,29 @@ body {
 
 .widget:hover {
   transform: translateY(-8px);
-  box-shadow: 0 25px 60px rgba(59,130,246,0.25);
+  box-shadow: 0 25px 60px rgba(59, 130, 246, 0.25);
 }
 
+/* Forms */
 form {
   display: grid;
   gap: 16px;
 }
 
 input,
-select {
+select,
+textarea {
   width: 100%;
-  padding: 16px;
-  border-radius: 16px;
-  border: 1px solid rgba(255,255,255,0.12);
-  background: rgba(255,255,255,0.07);
+  padding: 18px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.07);
   color: white;
   outline: none;
 }
 
-input::placeholder {
+input::placeholder,
+textarea::placeholder {
   color: #94a3b8;
 }
 
@@ -124,95 +133,70 @@ select option {
   color: black;
 }
 
-.input-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 14px;
+/* Planner Textarea */
+textarea {
+  min-height: 350px;
+  resize: vertical;
+  font-size: 15px;
+  line-height: 1.7;
 }
 
-.hint {
-  margin-top: 15px;
-  color: #cbd5e1;
-  font-size: 14px;
-}
-
-hr {
-  border: none;
-  height: 1px;
-  background: rgba(255,255,255,0.12);
-  margin: 10px 0;
-}
-
-.card h3 {
-  margin-top: 5px;
-  margin-bottom: 5px;
-}
-
-.day-box,
-.exercise-card {
+/* Exercise Cards */
+.day-box {
   padding: 25px;
   margin-top: 20px;
   border-radius: 24px;
   background: linear-gradient(
     135deg,
-    rgba(59,130,246,0.15),
-    rgba(147,51,234,0.15)
+    rgba(59, 130, 246, 0.15),
+    rgba(147, 51, 234, 0.15)
   );
-  border: 1px solid rgba(255,255,255,0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .day-box h3 {
-  margin-bottom: 15px;
+  margin-bottom: 18px;
   color: #93c5fd;
 }
 
-.exercise-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 14px;
-  padding: 16px;
-  margin-top: 12px;
-  border-radius: 18px;
-  background: rgba(255,255,255,0.06);
-}
-
-.exercise-row p {
-  color: #e5e7eb;
-}
-
-textarea {
-  width: 100%;
-  min-height: 300px;
-  padding: 18px;
-  border-radius: 18px;
-  border: 1px solid rgba(255,255,255,0.12);
-  background: rgba(255,255,255,0.07);
-  color: white;
-  outline: none;
-  resize: vertical;
-  font-size: 15px;
-  line-height: 1.6;
-}
-
-textarea::placeholder {
-  color: #94a3b8;
-}
-
+/* Muscle Group Heading */
 .muscle-title {
   margin-top: 22px;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
   color: #c084fc;
   font-size: 15px;
   text-transform: uppercase;
   letter-spacing: 1px;
 }
 
+/* Individual Exercise */
+.exercise-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+
+  padding: 16px;
+  margin-top: 12px;
+  border-radius: 18px;
+
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.exercise-row p {
+  color: #e5e7eb;
+}
+
+/* Buttons */
 button {
   border: none;
   padding: 16px 30px;
   border-radius: 18px;
-  background: linear-gradient(135deg, #3b82f6, #9333ea);
+  background: linear-gradient(
+    135deg,
+    #3b82f6,
+    #9333ea
+  );
   color: white;
   font-weight: 700;
   cursor: pointer;
@@ -221,36 +205,50 @@ button {
 
 button:hover {
   transform: scale(1.03);
-  box-shadow: 0 20px 40px rgba(59,130,246,0.4);
+  box-shadow: 0 20px 40px rgba(59, 130, 246, 0.4);
+}
+
+#autoBuildBtn {
+  width: 100%;
+  margin-top: 20px;
+}
+
+#clearAllBtn {
+  width: 100%;
+  margin-top: 15px;
 }
 
 .delete-btn,
 .clear-btn {
-  background: linear-gradient(135deg, #ef4444, #b91c1c);
-  padding: 10px 14px;
+  background: linear-gradient(
+    135deg,
+    #ef4444,
+    #b91c1c
+  );
+  padding: 12px 14px;
   font-size: 13px;
 }
 
-.clear-btn {
-  margin-top: 15px;
-}
-
+/* Nutrition Result */
 .result-box {
   margin-top: 22px;
   padding: 25px;
   border-radius: 22px;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .result-box p {
   margin-top: 10px;
 }
 
+/* Empty State */
 .empty {
   color: #cbd5e1;
+  line-height: 1.7;
 }
 
+/* Tablet */
 @media (max-width: 900px) {
   .navbar {
     padding: 16px 24px;
@@ -261,11 +259,13 @@ button:hover {
   }
 }
 
+/* Mobile */
 @media (max-width: 600px) {
   .navbar {
     width: 94%;
     margin: 15px auto;
     padding: 18px;
+
     flex-direction: column;
     gap: 18px;
   }
@@ -284,9 +284,9 @@ button:hover {
 
   .navbar a {
     font-size: 14px;
-    padding: 8px 10px;
+    padding: 8px 12px;
     border-radius: 999px;
-    background: rgba(255,255,255,0.08);
+    background: rgba(255, 255, 255, 0.08);
   }
 
   .container {
@@ -312,13 +312,8 @@ button:hover {
     border-radius: 24px;
   }
 
-  .dashboard-grid {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-
-  .input-row {
-    grid-template-columns: 1fr;
+  textarea {
+    min-height: 280px;
   }
 
   .exercise-row {

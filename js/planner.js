@@ -1,25 +1,45 @@
-const workoutForm = document.getElementById("workoutForm");
-const weeklyRoutine = document.getElementById("weeklyRoutine");
 const bulkRoutineInput = document.getElementById("bulkRoutineInput");
 const autoBuildBtn = document.getElementById("autoBuildBtn");
+const clearAllBtn = document.getElementById("clearAllBtn");
+const weeklyRoutine = document.getElementById("weeklyRoutine");
+const todayWorkout = document.getElementById("todayWorkout");
+const todayTitle = document.getElementById("todayTitle");
 
 let workouts = JSON.parse(localStorage.getItem("workouts")) || {};
+
+const weekMap = {
+  Monday: "Day 1",
+  Tuesday: "Day 2",
+  Wednesday: "Day 3",
+  Thursday: "Day 4",
+  Friday: null,
+  Saturday: null,
+  Sunday: null
+};
 
 autoBuildBtn.addEventListener("click", function () {
   const text = bulkRoutineInput.value.trim();
 
   if (!text) {
-    alert("Paste your workout routine first.");
+    alert("Paste your routine first.");
     return;
   }
 
   workouts = parseRoutineText(text);
-
   localStorage.setItem("workouts", JSON.stringify(workouts));
+
   bulkRoutineInput.value = "";
+  displayTodayWorkout();
   displayWeeklyRoutine();
 
-  alert("Routine built successfully!");
+  alert("Routine built successfully.");
+});
+
+clearAllBtn.addEventListener("click", function () {
+  localStorage.removeItem("workouts");
+  workouts = {};
+  displayTodayWorkout();
+  displayWeeklyRoutine();
 });
 
 function parseRoutineText(text) {
@@ -33,23 +53,15 @@ function parseRoutineText(text) {
   let currentSection = "";
 
   lines.forEach(line => {
-    const isDayLine = /^Day\s*\d+/i.test(line);
+    const dayLine = line.match(/^Day\s*(\d+)\s*[–-]\s*(.+)$/i);
 
-    if (isDayLine) {
-      const dayMatch = line.match(/^Day\s*(\d+)/i);
-      const dayNumber = dayMatch ? dayMatch[1] : "";
-
-      currentDay = `Day ${dayNumber}`;
-
-      const workoutName = line
-        .replace(/^Day\s*\d+\s*[–-]\s*/i, "")
-        .trim();
-
+    if (dayLine) {
+      currentDay = `Day ${dayLine[1]}`;
       newWorkouts[currentDay] = {
-        name: workoutName || `Workout ${dayNumber}`,
+        name: dayLine[2].trim(),
         exercises: []
       };
-
+      currentSection = "";
       return;
     }
 
@@ -60,7 +72,7 @@ function parseRoutineText(text) {
       return;
     }
 
-    if (currentDay && isExerciseLine) {
+    if (currentDay) {
       const cleanLine = line.replace("–", "-");
       const parts = cleanLine.split("-");
 
@@ -80,15 +92,15 @@ function parseRoutineText(text) {
         sets = setsOnlyMatch[1];
         reps = "AMRAP";
       } else {
-        sets = detail;
-        reps = "";
+        sets = "-";
+        reps = "-";
       }
 
       newWorkouts[currentDay].exercises.push({
-        section: currentSection,
+        section: currentSection || "Workout",
         exercise: exerciseName,
-        sets: sets,
-        reps: reps
+        sets,
+        reps
       });
     }
   });
@@ -96,61 +108,80 @@ function parseRoutineText(text) {
   return newWorkouts;
 }
 
-workoutForm.addEventListener("submit", function (e) {
-  e.preventDefault();
-
-  const day = document.getElementById("day").value;
-  const workoutName = document.getElementById("workoutName").value;
-  const exercise = document.getElementById("exercise").value;
-  const sets = document.getElementById("sets").value;
-  const reps = document.getElementById("reps").value;
-
-  if (!workouts[day]) {
-    workouts[day] = {
-      name: workoutName,
-      exercises: []
-    };
-  }
-
-  workouts[day].name = workoutName;
-
-  workouts[day].exercises.push({
-    section: "Custom",
-    exercise,
-    sets,
-    reps
-  });
-
-  localStorage.setItem("workouts", JSON.stringify(workouts));
-
-  document.getElementById("exercise").value = "";
-  document.getElementById("sets").value = "";
-  document.getElementById("reps").value = "";
-  document.getElementById("exercise").focus();
-
-  displayWeeklyRoutine();
-});
-
-function displayWeeklyRoutine() {
-  weeklyRoutine.innerHTML = "";
-
-  const daysOrder = [
-    "Day 1",
-    "Day 2",
-    "Day 3",
-    "Day 4",
-    "Day 5",
-    "Day 6",
-    "Day 7",
+function getTodayName() {
+  const days = [
+    "Sunday",
     "Monday",
     "Tuesday",
     "Wednesday",
     "Thursday",
     "Friday",
-    "Saturday",
-    "Sunday"
+    "Saturday"
   ];
 
+  return days[new Date().getDay()];
+}
+
+function displayTodayWorkout() {
+  const todayName = getTodayName();
+  const todayDay = weekMap[todayName];
+  const data = todayDay ? workouts[todayDay] : null;
+
+  todayTitle.textContent = `Today is ${todayName}`;
+
+  if (!todayDay) {
+    todayWorkout.innerHTML = `
+      <div class="day-box">
+        <h3>🏖️ Rest Day</h3>
+        <p class="empty">
+          Today is ${todayName}. Recover, eat well, and enjoy your day off.
+        </p>
+      </div>
+    `;
+    return;
+  }
+
+  if (!data || data.exercises.length === 0) {
+    todayWorkout.innerHTML = `
+      <div class="day-box">
+        <h3>${todayDay}</h3>
+        <p class="empty">No workout has been scheduled for today.</p>
+      </div>
+    `;
+    return;
+  }
+
+  let html = `
+    <div class="day-box">
+      <h3>${todayDay} - ${data.name}</h3>
+  `;
+
+  let lastSection = "";
+
+  data.exercises.forEach(item => {
+    if (item.section && item.section !== lastSection) {
+      html += `<h4 class="muscle-title">${item.section}</h4>`;
+      lastSection = item.section;
+    }
+
+    html += `
+      <div class="exercise-row">
+        <div>
+          <p><strong>${item.exercise}</strong></p>
+          <p>${item.sets} sets × ${item.reps} reps</p>
+        </div>
+      </div>
+    `;
+  });
+
+  html += `</div>`;
+  todayWorkout.innerHTML = html;
+}
+
+function displayWeeklyRoutine() {
+  weeklyRoutine.innerHTML = "";
+
+  const daysOrder = ["Day 1", "Day 2", "Day 3", "Day 4"];
   let hasWorkout = false;
 
   daysOrder.forEach(day => {
@@ -166,7 +197,7 @@ function displayWeeklyRoutine() {
 
       let lastSection = "";
 
-      data.exercises.forEach((item, index) => {
+      data.exercises.forEach(item => {
         if (item.section && item.section !== lastSection) {
           html += `<h4 class="muscle-title">${item.section}</h4>`;
           lastSection = item.section;
@@ -178,43 +209,19 @@ function displayWeeklyRoutine() {
               <p><strong>${item.exercise}</strong></p>
               <p>${item.sets} sets × ${item.reps} reps</p>
             </div>
-
-            <button class="delete-btn" onclick="deleteExercise('${day}', ${index})">
-              Delete
-            </button>
           </div>
         `;
       });
 
-      html += `
-          <button class="clear-btn" onclick="clearDay('${day}')">Clear ${day}</button>
-        </div>
-      `;
-
+      html += `</div>`;
       weeklyRoutine.innerHTML += html;
     }
   });
 
   if (!hasWorkout) {
-    weeklyRoutine.innerHTML = `<p class="empty">No workout added yet.</p>`;
+    weeklyRoutine.innerHTML = `<p class="empty">No routine added yet. Paste your full routine above.</p>`;
   }
 }
 
-function deleteExercise(day, index) {
-  workouts[day].exercises.splice(index, 1);
-
-  if (workouts[day].exercises.length === 0) {
-    delete workouts[day];
-  }
-
-  localStorage.setItem("workouts", JSON.stringify(workouts));
-  displayWeeklyRoutine();
-}
-
-function clearDay(day) {
-  delete workouts[day];
-  localStorage.setItem("workouts", JSON.stringify(workouts));
-  displayWeeklyRoutine();
-}
-
+displayTodayWorkout();
 displayWeeklyRoutine();
