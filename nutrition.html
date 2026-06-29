@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FitPlan | Nutrition</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <nav class="navbar">
+    <h2>FitPlan</h2>
+    <div>
+      <a href="index.html">Dashboard</a>
+      <a href="planner.html">Planner</a>
+      <a href="nutrition.html">Nutrition</a>
+    </div>
+  </nav>
+
+  <main class="container">
+    <section class="hero">
+      <h1>Calories & Protein Calculator</h1>
+      <p>Calculate your daily target based on body weight.</p>
+    </section>
+
+    <section class="card">
+      <form id="nutritionForm">
+        <input type="number" id="weight" placeholder="Enter weight in kg" required />
+
+        <select id="goal" required>
+          <option value="">Select Goal</option>
+          <option value="maintain">Maintain</option>
+          <option value="bulk">Lean Bulk</option>
+          <option value="cut">Cut</option>
+        </select>
+
+        <button type="submit">Calculate</button>
+      </form>
+
+      <div id="nutritionResult" class="result-box"></div>
+    </section>
+  </main>
+
+  <script src="js/nutrition.js"></script>
+</body>
+</html>
