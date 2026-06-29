@@ -8,25 +8,35 @@ nutritionForm.addEventListener("submit", function (e) {
   const goal = document.getElementById("goal").value;
 
   const maintenance = Math.round(weight * 33);
-  const leanBulk = maintenance + 250;
-  const cut = maintenance - 400;
   const protein = Math.round(weight * 2);
+  const fats = Math.round(weight * 1);
+  const water = Math.round(weight * 0.04 * 10) / 10;
 
   let selectedCalories = maintenance;
+  let goalText = "Maintain";
 
   if (goal === "bulk") {
-    selectedCalories = leanBulk;
+    selectedCalories = maintenance + 250;
+    goalText = "Lean Bulk";
   } else if (goal === "cut") {
-    selectedCalories = cut;
+    selectedCalories = maintenance - 400;
+    goalText = "Cut";
   }
 
-  nutritionResult.innerHTML = `
-    <h3>Your Daily Target</h3>
-    <p><strong>Weight:</strong> ${weight}kg</p>
-    <p><strong>Selected Goal Calories:</strong> ${selectedCalories} kcal/day</p>
-    <p><strong>Maintenance:</strong> ${maintenance} kcal/day</p>
-    <p><strong>Lean Bulk:</strong> ${leanBulk} kcal/day</p>
-    <p><strong>Cut:</strong> ${cut} kcal/day</p>
-    <p><strong>Protein Target:</strong> ${protein}g/day</p>
-  `;
+  const proteinCalories = protein * 4;
+  const fatCalories = fats * 9;
+  const carbCalories = selectedCalories - proteinCalories - fatCalories;
+  const carbs = Math.round(carbCalories / 4);
+
+  const mealCalories = Math.round(selectedCalories / 4);
+  const mealProtein = Math.round(protein / 4);
+
+  <div class="meal-box">
+  <h4>Nutrition Freedom 💡</h4>
+  <p>
+    Focus on hitting your daily calorie and protein targets.
+    You can split your food into 2, 3, 4, or more meals depending
+    on your lifestyle, appetite, and schedule.
+  </p>
+</div>
 });
